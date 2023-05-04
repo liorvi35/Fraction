@@ -1,11 +1,5 @@
-/**
- * @brief this file containts the Fraction declarations; Assignment 3, Software Systems 2 course at Ariel University
- * @author Lior Vinman
- * @since 15/04/2023
-*/
-
-
-#pragma once // insuring that header will be included only once at most
+#ifndef _FRACTION_HPP_
+#define _FRACTION_HPP_
 
 #include <iostream>
 
@@ -13,112 +7,56 @@ using namespace std;
 
 namespace ariel
 {
-    /**
-     * @brief this class representing the fraction
-    */
     class Fraction
     {
         private:
-
             int _numerator, _denominator;
         
         public:
-
-            /* Constructor */
+            Fraction();
 
             Fraction(int, int);
 
-            /* Addition */
+            Fraction(float);
 
-            Fraction operator+(const Fraction&); // Fraction + Fraction
+            int getNumerator();
 
-            friend float operator+(float, const Fraction&); // float + Fraction
+            int getDenominator();
 
-            friend float operator+(const Fraction&, float); // Fraction + float
+            friend Fraction operator+(const Fraction&, const Fraction&);
 
-            /* Subtraction */
+            friend Fraction operator-(const Fraction&, const Fraction&);
 
-            Fraction operator-(const Fraction&); // Fraction - Fraction
+            friend Fraction operator*(const Fraction&, const Fraction&);
 
-            friend float operator-(float, const Fraction&); // float - Fraction
+            friend Fraction operator/(const Fraction&, const Fraction&);
 
-            //friend float operator-(const Fraction&, float); // Fraction - float
+            Fraction operator++(int);
 
-            /* Multiplication */
+            Fraction operator++();
 
-            Fraction operator*(const Fraction&); // Fraction * Fraction
+            Fraction operator--(int);
 
-            friend float operator*(float, const Fraction&); // float * Fraction
+            Fraction operator--();
 
-            friend float operator*(const Fraction&, float); // Fraction * float
+            friend bool operator>(const Fraction&, const Fraction&);
 
-            /* Divison */
+            friend bool operator>=(const Fraction&, const Fraction&);
 
-            Fraction operator/(const Fraction&); // Fraction : Fraction
+            friend bool operator>(const Fraction&, const Fraction&);    
 
-            friend float operator/(float, const Fraction&); // float : Fraction
+            friend bool operator<(const Fraction&, const Fraction&);
 
-            friend float operator/(const Fraction&, float); // Fraction : float
+            friend bool operator<=(const Fraction&, const Fraction&);
 
-            /* Equallity */
+            friend bool operator==(const Fraction&, const Fraction&);
 
-            bool operator==(const Fraction&); // Fraction == Fraction
+            friend bool operator!=(const Fraction&, const Fraction&);
 
-            friend float operator==(float, const Fraction&); // float == Fraction
+            friend ostream& operator<<(ostream&, const Fraction&);
 
-            friend float operator==(const Fraction&, float); // Fraction == float
-
-
-            /* Less Than */
-
-            bool operator<(const Fraction&); // Fraction < Fraction
-
-            friend float operator<(float, const Fraction&); // float < Fraction
-
-            friend float operator<(const Fraction&, float); // Fraction < float
-
-            /* Less Than or Equall*/
-
-            bool operator<=(const Fraction&); // Fraction <= Fraction
-
-            friend float operator<=(float, const Fraction&); // float <= Fraction
-
-            friend float operator<=(const Fraction&, float); // Fraction <= float
-
-            /* Greater Than */
-
-            bool operator>(const Fraction&); // Fraction > Fraction
-
-            friend float operator>(float, const Fraction&); // float > Fraction
-
-            friend float operator>(const Fraction&, float); // Fraction > float
-
-            /* Greater Than or Equall*/
-
-            bool operator>=(const Fraction&); // Fraction >= Fraction
-
-            friend float operator>=(float, const Fraction&); // float >= Fraction
-
-            friend float operator>=(const Fraction&, float); // Fraction >= float
-
-            /* Increment */
-
-            Fraction& operator++(); // ++Fractior
-
-            Fraction operator++(int); // Fraction++
-
-            /* Decrement */
-
-            Fraction& operator--(); // --Fractior
-
-            Fraction operator--(int); // Fraction--
-
-            /* Output Stream */
-
-            friend ostream& operator<<(ostream&, const Fraction&); // output in format: "<numerator> / <denominator>"
-
-            /* Input Stream */
-
-            friend istream& operator>>(istream&, Fraction&); // input in format: "<numerator> <denominator>"
+            friend istream& operator>>(istream&, Fraction&);
     };
 }
+
+#endif
