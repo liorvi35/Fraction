@@ -1,285 +1,225 @@
-/**
- * @brief this file contains the Fraction implementations; ssignment 3, Software Systems 2 course at Ariel University
- * @author Lior Vinman
- * @since 15/04/2023
-*/
-
-
-#include <iostream>
-#include <stdexcept>
+#include <limits>
+#include <cmath>
 #include "Fraction.hpp"
 
 using namespace std;
 
+
+void check_overflow(long a, long b)
+{
+    if(a > numeric_limits<int>::max() || b > numeric_limits<int>::max())
+    {
+        throw overflow_error("numerator or denominator are too high!");
+    }
+
+    if(a < numeric_limits<int>::min() || b < numeric_limits<int>::min())
+    {
+        throw overflow_error("numerator or denominator are too low!");
+    }
+}
+
 namespace ariel
 {
-    /**
-     * @brief this function calculates the greatest common divison of two integers
-     * @param a first integer
-     * @param b second integer
-     * @return gcd(a,b)
-    */
-    int GCD(int a, int b)
-    {
-        int r = 0;
-        while(b != 0)
-        {
-            r = (a % b);
-            a = b;
-            b = r;
-        }
+    Fraction::Fraction() : _numerator(0), _denominator(1) {}
 
-        return a;
+    Fraction::Fraction(int n, int m)
+    {
+        // if(m == 0)
+        // {
+        //     throw invalid_argument("/ by 0");
+        // }
+        // else
+        // {
+        //     if(m < 0)
+        //     {
+        //         this->_numerator = -1 * n;
+        //         this->_denominator = -1 * m;
+        //     }
+        //     else
+        //     {
+        //         if(m == numeric_limits<int>::max() && n == numeric_limits<int>::max())
+        //         {
+        //             this->_numerator = 1;
+        //             this->_denominator = 1;
+        //         }
+        //         else
+        //         {
+        //             this->_numerator = n;
+        //             this->_denominator = m;
+        //         }
+        //     }
+        // }
+
+        this->_numerator = n;
+        this->_denominator = m;
     }
 
-    /**
-     * @brief this is a constructor to create a standard object from two integers
-     * @param numerator fraction upper value
-     * @param denominator fraction lower value
-    */
-    Fraction::Fraction(int numerator, int denominator) : _numerator(numerator), _denominator(denominator)
+    Fraction::Fraction(float f)
     {
-        if(denominator == 0)
-        {
-            throw invalid_argument("/ by 0");
-        }
-        else
-        {
-            this->_numerator = numerator;
-            this->_denominator = denominator;
-        }
+        // float tmp = f;
+        // bool isNeg = false;
+        // if(tmp < 0)
+        // {
+        //     isNeg = true;
+        //     tmp = -1 * tmp;
+        // }
+
+        // int mult = 1;
+        // while(floor(tmp) - tmp != 0)
+        // {
+        //     tmp *= 10;
+        //     mult *= 10;
+        // }
+
+        // int gcd = 0;
+        // gcd = __gcd((int)tmp, mult);
+
+        // tmp /= gcd;
+        // mult /= gcd;
+
+        // this->_numerator = (int)tmp;
+        // this->_denominator = mult;
+
+        this->_numerator = 0;
+        this->_denominator = 1;
     }
 
-    /**
-     * @brief this operator adds two fractions
-     * @param other second fraction to add to current fraction
-     * @return the result of adding both fractions
-    */
-    Fraction Fraction::operator+(const Fraction &other)
+    int Fraction::getNumerator()
     {
-        int numerator = 0, denominator = 0, gcd = 0;
-
-        numerator = (this->_numerator * other._denominator) + (this->_denominator * other._numerator);
-        denominator = this->_denominator * other._denominator;
-        gcd = GCD(numerator, denominator);
-
-        numerator /= gcd;
-        denominator /= gcd;
-
-        return Fraction(numerator, denominator);
+        return this->_numerator;
     }
 
-    /**
-     * @brief this operator adds float with fraction
-     * @param x float to add
-     * @param other fraction to add
-     * @return x + other as float
-    */
-    float operator+(float x, const Fraction &other)
+    int Fraction::getDenominator()
     {
-        return (((other._numerator) + (x * other._denominator)) / (other._denominator));
+        return this->_denominator;
     }
 
-    /**
-     * @brief this operator adds fraction with float
-     * @param other fraction to add
-     * @param x float to add
-     * @return other + x as float
-    */
-    float operator+(const Fraction &other, float x)
+    Fraction operator+(const Fraction &a, const Fraction &b)
     {
-        return (x + other);   
+        // long numerator = 0, denominator = 0, gcd = 0;
+
+        // numerator = (a._numerator * b._denominator) + (a._denominator * b._numerator);
+        // denominator = a._denominator * b._denominator;
+
+        // check_overflow(numerator, denominator);
+
+        // gcd = __gcd((int)numerator, (int)denominator);
+
+        // numerator = (int)((int)(numerator) / gcd);
+        // denominator = (int)((int)(denominator) / gcd);
+
+        // return Fraction((int)numerator, (int)denominator);
+        return Fraction(0, 1);
     }
 
-    /**
-     * @brief this operator subtracts two fractions
-     * @param other fraction to subtruct from currect fruction
-     * @return the result of subtracting both fractions
-    */
-    Fraction Fraction::operator-(const Fraction &other)
+    Fraction operator-(const Fraction &a, const Fraction &b)
     {
-        return this->operator+(Fraction((-1 * other._numerator), other._denominator));
+        // return a + Fraction((-1 * b._numerator), b._denominator);
+        return Fraction(0, 1);
     }
 
-    /**
-     * @brief this operator subtracts float and fraction
-     * @param x float from subtract
-     * @param other fraction to subtract
-     * @return x - other as float
-    */
-    float operator-(float x, const Fraction &other)
+    Fraction operator*(const Fraction &a, const Fraction &b)
     {
-        return x + Fraction((-1 * other._numerator), other._denominator);
+        // int numerator = 0, denominator = 0, gcd = 0;
+
+        // numerator = a._numerator * b._numerator;
+        // denominator = a._denominator * b._denominator;
+        
+        // check_overflow(numerator, denominator);
+
+        // gcd = __gcd((int)numerator, (int)denominator);
+
+        // numerator = (int)((int)(numerator) / gcd);
+        // denominator = (int)((int)(denominator) / gcd);
+
+        // return Fraction((int)numerator, (int)denominator);
+        return Fraction(0, 1);
     }
 
-    /**
-     * @brief this operator subtracts float and fraction
-     * @param x float to subtract
-     * @param other fraction from subsract
-     * @return other - x as float
-    */
-    float operator-(const Fraction &other, float x)
+    Fraction operator/(const Fraction &a, const Fraction &b)
     {
-        return -1 * (x - other);
+        // if(b._numerator == 0)
+        // {
+        //     throw runtime_error("/ by 0");
+        // }
+
+        // return a * Fraction(b._denominator, b._numerator);
+        return Fraction(0, 1);
     }
 
-    /**
-     * @brief this operator multiplies two fructions
-     * @param other fraction to multipliy
-     * @return multiplication of two fractions
-    */
-    Fraction Fraction::operator*(const Fraction &other)
+    Fraction Fraction::operator++(int num)
     {
-        int numerator = 0, denominator = 0, gcd = 0;
-
-        numerator = this->_numerator * other._numerator;
-        denominator = this->_denominator * other._denominator;
-        gcd = GCD(numerator, denominator);
-
-        numerator /= gcd;
-        denominator /= gcd;
-
-        return Fraction(numerator, denominator);
+        // this->_numerator += this->_denominator;
+        // return *this;
+        return Fraction(0, 1);
     }
 
-    /**
-     * @brief this operator multiplies fraction and a float
-     * @param x float to mult
-     * @param other fraction to mult
-     * @return x * other as float
-    */
-    float operator*(float x, const Fraction &other)
+    Fraction Fraction::operator++()
     {
-        return (x * other._numerator) / other._denominator;
+        // ++(*this);
+        // return *this;
+        return Fraction(0, 1); 
     }
 
-    /**
-     * @brief this operator multiplies fraction and a float
-     * @param x float to mult
-     * @param other fraction to mult
-     * @return other * x as float
-    */
-    float operator*(const Fraction &other, float x)
+    Fraction Fraction::operator--(int num)
     {
-        return x * other;
+        // this->_numerator -= this->_denominator;
+        // return *this;
+        return Fraction(0, 1);
     }
 
-    /**
-     * @brief this operator divides fractions
-     * @param other fraction to divide
-     * @return divides current fraction with other
-    */
-    Fraction Fraction::operator/(const Fraction &other)
+    Fraction Fraction::operator--()
     {
-        return this->operator*(Fraction(other._denominator, other._numerator));
+        // --(*this);
+        // return *this;
+        return Fraction(0, 1);
     }
 
-    /**
-     * @brief this operator divides float by fraction
-     * @param x float to divide
-     * @param other fraction to divide
-     * @return x / other as float
-    */
-    float operator/(float x, const Fraction &other)
+    bool operator>(const Fraction &a, const Fraction &b)
     {
-        return other._numerator / (other._numerator * x);
+        // return ((a._numerator * b._denominator) > (b._numerator * a._denominator));
+        return false;
     }
 
-    /**
-     * @brief this operator divides float by fraction
-     * @param x float to divide
-     * @param other fraction to divide
-     * @return other / x as float
-    */
-    float operator/(const Fraction &other, float x)
+    bool operator>=(const Fraction &a, const Fraction &b)
     {
-        return 1 / (x / other);
+        // return ((a._numerator * b._denominator) >= (b._numerator * a._denominator));
+        return false;
     }
 
-    bool Fraction::operator==(const Fraction &other)
+    bool operator<(const Fraction &a, const Fraction &b)
     {
-        return this->_numerator * other._denominator == this->_denominator * other._numerator;
+        // return ((a._numerator * b._denominator) < (b._numerator * a._denominator));
+        return false;
     }
 
-    float operator==(float x, const Fraction &other)
+    bool operator<=(const Fraction &a, const Fraction &b)
     {
-        return other._numerator == x * other._denominator;
+        // return ((a._numerator * b._denominator) <= (b._numerator * a._denominator));
+        return false;
     }
 
-    float operator==(const Fraction &other, float x)
+    bool operator==(const Fraction &a, const Fraction &b)
     {
-        return x == other;
+        // return ((a._numerator * b._denominator) == (b._numerator * a._denominator));
+        return false;
     }
 
-    bool Fraction::operator>(const Fraction &other)
+    bool operator!=(const Fraction &a, const Fraction &b)
     {
-        return this->_numerator * other._denominator > this->_denominator * other._numerator;
+        // return !(a == b);
+        return false;
     }
 
-    float operator>(float x, const Fraction &other)
+    ostream &operator<<(ostream &os, const Fraction &frac)
     {
-        return other._numerator > x * other._denominator;
-    }
-
-    float operator>(const Fraction &other, float x)
-    {
-        return x > other;
-    }
-
-    bool Fraction::operator>=(const Fraction &other)
-    {
-        return this->_numerator * other._denominator >= this->_denominator * other._numerator;
-    }
-
-    float operator>=(float x, const Fraction &other)
-    {
-        return other._numerator >= x * other._denominator;
-    }
-
-    float operator==(const Fraction &other, float x)
-    {
-        return x >= other;
-    }
-
-    bool Fraction::operator<(const Fraction &other)
-    {
-        return this->_numerator * other._denominator < this->_denominator * other._numerator;
-    }
-
-    float operator<(float x, const Fraction &other)
-    {
-        return other._numerator < x * other._denominator;
-    }
-
-    float operator<(const Fraction &other, float x)
-    {
-        return x < other;
-    }
-
-    bool Fraction::operator<=(const Fraction &other)
-    {
-        return this->_numerator * other._denominator <= this->_denominator * other._numerator;
-    }
-
-    float operator<=(float x, const Fraction &other)
-    {
-        return other._numerator <= x * other._denominator;
-    }
-
-    float operator<=(const Fraction &other, float x)
-    {
-        return x <= other;
-    }
-
-    ostream& operator<<(ostream &os, const Fraction &other)
-    {
-        os << other._numerator << "/" << other._denominator << endl;
+        // os << frac._numerator << "/" << frac._denominator << endl;
         return os;
     }
 
-    istream& operator>>(istream &is, Fraction &other)
+    istream &operator>>(istream &is, Fraction &frac)
     {
-        is >> other._numerator >> other._denominator;
+        // is >> frac._numerator >> frac._denominator;
         return is;
     }
 }
